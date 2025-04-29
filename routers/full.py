@@ -19,6 +19,10 @@ async def full(
     lower_url: Optional[str] = Body(None),
     lower_offset_bottom: int = Body(0),
 ):
+
+    if not upper_url and not lower_url:
+        raise HTTPException(status_code=400, detail="upper_url과 lower_url 중 적어도 하나는 필요합니다.")
+
     offset_top = 0
     offset_left = 0
     offset_right = 0
@@ -27,9 +31,6 @@ async def full(
     seed = -1
     num_images_per_prompt = 1
     resolution = "768x1024"
-
-    if not upper_url and not lower_url:
-        raise HTTPException(status_code=400, detail="upper_url과 lower_url 중 적어도 하나는 필요합니다.")
 
     result_s3_url = model_url  # 초기값은 model_url
 

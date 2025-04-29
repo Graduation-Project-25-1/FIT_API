@@ -19,6 +19,9 @@ async def sum(
     lower_url: Optional[str] = Body(default=None),
     lower_offset_bottom: int = Body(0),
 ):
+    if not upper_url and not lower_url:
+        raise HTTPException(status_code=400, detail="upper_url 또는 lower_url 중 하나는 필수입니다.")
+
     offset_top = 0
     offset_left = 0
     offset_right = 0
@@ -27,9 +30,6 @@ async def sum(
     seed = -1
     num_images_per_prompt = 1
     resolution = "768x1024"
-
-    if not upper_url and not lower_url:
-        raise HTTPException(status_code=400, detail="upper_url 또는 lower_url 중 하나는 필수입니다.")
 
     result_s3_url = model_url
 
