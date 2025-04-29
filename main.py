@@ -5,11 +5,8 @@ from fastapi.middleware.cors import CORSMiddleware  # CORS 미들웨어 import
 
 app = FastAPI()
 
-origins = [
-    "http://localhost",
-    "http://localhost:3000",
-    # "https://example.com",
-]
+origins_env = os.getenv("ORIGINS", "")
+origins = [url.strip() for url in origins_env.split(",") if url.strip()]
 
 app.add_middleware(
     CORSMiddleware,
@@ -39,9 +36,6 @@ if __name__ == "__main__":
 # rm -rf .venv (when.error)
 # python3 -m venv .venv
 # source .venv/bin/activate
-# pip install fastapi uvicorn python-dotenv
-# pip install gradio-client
-# pip install python-multipart
-# pip install boto3
+# pip install fastapi uvicorn[standard] python-dotenv gradio-client python-multipart boto3
 # uvicorn main:app --host 0.0.0.0 --port 8000 --workers 4
 
