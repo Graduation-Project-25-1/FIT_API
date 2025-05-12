@@ -13,7 +13,7 @@ client = Client("BoyuanJiang/FitDiT", hf_token=os.getenv("HF_TOKEN"))
 
 @router.post("/sum")
 async def sum(
-    model_url: str = Body("https://boyuanjiang-fitdit.hf.space/gradio_api/file=/tmp/gradio/555ddf7f9160ff20b7429dbb65f9c2167a4798fa756a8c8e7cef87d8cf5abef0/0223.jpg"),
+    model_url: str = Body("https://2dfittingroom.s3.ap-northeast-2.amazonaws.com/2025-04-01/4d97c180-d716-413d-a213-59906df1a650.jpg"),
     upper_url: Optional[str] = Body(default=None),
     upper_offset_bottom: int = Body(0),
     lower_url: Optional[str] = Body(default=None),
@@ -27,7 +27,7 @@ async def sum(
     offset_right = 0
     n_steps = 20
     image_scale = 2
-    seed = -1
+    seed = 0
     num_images_per_prompt = 1
     resolution = "768x1024"
 
@@ -79,6 +79,7 @@ async def sum(
                 local_img_path = img_obj.get("path") if isinstance(img_obj, dict) else img_obj
                 if local_img_path and os.path.exists(local_img_path):
                     result_s3_url = upload_to_s3(local_img_path)
+                    print("upper : " + result_s3_url)
 
             if result_s3_url == model_url:
                 raise Exception("[upper] 결과 이미지 업로드 실패 또는 결과가 없습니다.")

@@ -2,9 +2,11 @@ import os
 import importlib
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware  # CORS 미들웨어 import
+from dotenv import load_dotenv
 
 app = FastAPI()
 
+load_dotenv()
 origins_env = os.getenv("ORIGINS", "")
 origins = [url.strip() for url in origins_env.split(",") if url.strip()]
 
@@ -41,5 +43,5 @@ if __name__ == "__main__":
 # pip install fastapi uvicorn[standard] python-dotenv gradio-client python-multipart boto3
 # uvicorn main:app --host 0.0.0.0 --port 8000 --workers 4
 
-# nohup uvicorn main:app --host 0.0.0.0 --port 7000 --workers 4 > uvicorn.log 2>&1 &
+# nohup uvicorn main:app --host 0.0.0.0 --port 7000 --workers 1 > uvicorn.log 2>&1 &
 # nohup cloudflared tunnel run fastapi-tunnel > cf.log 2>&1 &
